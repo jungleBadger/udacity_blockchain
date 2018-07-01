@@ -1,19 +1,20 @@
 {
-  "name": "udacity_blockchain",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "dcerag",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-eslint": "^8.2.5",
-    "eslint": "^5.0.1"
-  },
-  "dependencies": {
-    "crypto-js": "^3.1.9-1",
-    "level": "^4.0.0"
-  }
+	"name": "udacity_blockchain",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "dcerag",
+	"license": "ISC",
+	"devDependencies": {
+		"babel-eslint": "^8.2.5",
+		"eslint": "^5.0.1"
+	},
+	"dependencies": {
+		"crypto-js": "^3.1.9-1",
+		"level": "^4.0.0"
+	}
 }
