@@ -36,6 +36,7 @@
 						chain.length,
 						JSON.stringify(block)
 					).then(() => {
+						console.log(`Block ${block.hash} added as #${block.height}`);
 						chain.push(block);
 						resolve(block);
 					}).catch(err => reject(err));
@@ -84,26 +85,33 @@
 				return new Promise((resolve, reject) => {
 					chainStore.getAllData(
 
-					).then(data => resolve(data)
-					).catch(err => reject(err));
+					).then(data => {
+						resolve(data.sort((a, b) => {
+							return a.height - b.height;
+						}))
+					}).catch(err => reject(err));
 				});
 			},
 			/**
 			 * @function validateBlock
 			 * @description Method to validate a block against it's own stored data
 			 * @param {Object} block - Block object to be validated.
+			 * @param {Number} blockIndex - Block object index.
 			 * @throws {Error} If block is invalid
 			 * @return {Boolean} True if block hash is consistent with previously stored value
 			 */
-			validateBlock(block) {
+			validateBlock(block, blockIndex) {
 				let hashToTest = block.hash;
 				this.getBlock(block.height).then(block => {
 					let copiedBlock = new Block(block);
-					if (hashToTest === copiedBlock.hash) {
+					if (hashToTest === copiedBlock.hash &&
+						(blockIndex >= 1 ? chain[blockIndex - 1].hash === block.previousBlockHash : true)) {
 						return true;
 					} else {
 						throw new Error(`Inconsistency found on block # ${block.height}`);
 					}
+				}).catch(err => {
+					console.log(err);
 				});
 			},
 			/**
@@ -113,8 +121,8 @@
 			 * @return {Boolean} True if chain is validated
 			 */
 			validateChain() {
-				chain.forEach((blockData) => {
-					this.validateBlock(blockData);
+				chain.forEach((blockData, index) => {
+					this.validateBlock(blockData, index);
 				});
 				console.log(`Validated chain with ${chain.length} blocks`);
 				return true;
