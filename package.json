@@ -14,7 +14,16 @@
 		"eslint": "^5.0.1"
 	},
 	"dependencies": {
+		"compression": "^1.7.3",
+		"consolidate": "^0.15.1",
+		"cookie-parser": "^1.4.3",
+		"cookie-session": "^2.0.0-beta.3",
 		"crypto-js": "^3.1.9-1",
-		"level": "^4.0.0"
+		"dotenv": "^6.0.0",
+		"ejs": "^2.6.1",
+		"express": "^4.16.3",
+		"helmet": "^3.12.2",
+		"level": "^4.0.0",
+		"morgan": "^1.9.0"
 	}
 }
