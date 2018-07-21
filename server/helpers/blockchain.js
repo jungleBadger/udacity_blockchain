@@ -62,7 +62,7 @@
 			},
 			/**
 			 * @function getBlockHeight
-			 * @description Method to retrieve a block given a block height
+			 * @description Method to retrieve the block count (last index)
 			 * @return {Promise} Containing the last index available on levelDB
 			 */
 			getBlockHeight() {
