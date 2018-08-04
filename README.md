@@ -67,3 +67,25 @@ curl -X GET \
   -d 'username=dcerag%40br.ibm.com&password=xxxxx'
 ```
 
+#### Request operation validation
+```
+curl -X POST \
+  http://localhost:8000/requestValidation \
+  -d address=1EgfiAv7TL4hvZL6674oqRST7aiRLSrYLx
+```
+  
+#### Sign message
+```
+curl -X POST \
+  http://localhost:8000/signMessage \
+  -d 'address=1EgfiAv7TL4hvZL6674oqRST7aiRLSrYLx&walletPassword=xxxxx&message=1EgfiAv7TL4hvZL6674oqRST7aiRLSrYLx%3A1533407314%3AstarRegistry'
+``` 
+
+#### Validate signature
+```
+curl -X POST \
+  http://localhost:8000/message-signature/validate \
+  -d 'address=1EgfiAv7TL4hvZL6674oqRST7aiRLSrYLx&signature=H0mI3eNV6Xr2AwA7Iek9A%2BnjjTFe9ycUz9HR7M8ZSwJ%2BHzT70TO84IEaBmmYTG5BLh5QrCDrdvtcVGsr%2B65ttYg%3D&message=1EgfiAv7TL4hvZL6674oqRST7aiRLSrYLx%3A1533407314%3AstarRegistry'
+ ```
+ 
+ ### This is  where I'm stuck. I could not generate a valid signature yet

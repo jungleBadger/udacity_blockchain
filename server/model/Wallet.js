@@ -5,6 +5,7 @@
 
 	const SHA256 = require("crypto-js/sha256");
 	const bitcoin = require("bitcoinjs-lib");
+	const bitcoinMessage = require("bitcoinjs-message");
 	const SECRET =  process.env.APP_SECRET || "APP_SECRET";
 
 	/**
@@ -27,7 +28,7 @@
 		this.address = bitcoin.payments.p2pkh({"pubkey": keyPair.publicKey}).address;
 		this.owner = payload.username;
 		this.timestamp = new Date().getTime().toString().slice(0, -3);
-		this.signature = SHA256(payload.password).toString();
+		this.password = SHA256(payload.password).toString();
 		return this;
 	};
 

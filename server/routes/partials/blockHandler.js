@@ -2,7 +2,7 @@
 	"use strict";
 
 
-	module.exports = function (app, blockchain) {
+	module.exports = function (app, blockchain, validateSignature) {
 
 		app.get("/block/:blockHeight", function (req, res) {
 			blockchain.getBlock(
@@ -34,7 +34,7 @@
 			});
 		});
 
-		app.post("/block", function (req, res) {
+		app.post("/block", validateSignature, function (req, res) {
 			blockchain.addBlock({
 				"body": req.body.blockBody || req.body.body
 			}).then(result => {

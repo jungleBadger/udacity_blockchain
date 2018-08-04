@@ -34,6 +34,7 @@
 						JSON.stringify(wallet)
 					).then(() => {
 						console.log(`Wallet of ${wallet.owner} created`);
+						console.log(wallet);
 						resolve(wallet);
 					}).catch(err => reject(err));
 				});
@@ -72,7 +73,7 @@
 					walletStore.getData(
 						walletAddress
 					).then(wallet => {
-						if (wallet.signature === SHA256(walletPassword).toString()) {
+						if (wallet.password === SHA256(walletPassword).toString()) {
 							return resolve(wallet);
 						} else {
 							return reject(createError(401, "Invalid wallet password to retrieve signature"))

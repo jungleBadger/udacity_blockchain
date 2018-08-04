@@ -29,7 +29,7 @@
 	const morgan = require("morgan");
 	const blockchain = require("./server/helpers/blockchain")();
 	const wallet = require("./server/helpers/wallet")();
-
+	const message = require("./server/helpers/message")();
 
 	app.use(helmet());
 	app.use(compress());
@@ -66,7 +66,7 @@
 		console.log("Chain logged above");
 		server.listen(appPort, () => {
 			console.log(`Server listening to HTTP on ${appPort}`);
-			require("./server/routes/index")(app, blockchain, wallet);
+			require("./server/routes/index")(app, blockchain, wallet, message);
 		});
 	}).catch((err) => {
 		console.log(err);
