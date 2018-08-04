@@ -10,10 +10,11 @@
 	"author": "dcerag",
 	"license": "ISC",
 	"devDependencies": {
-		"babel-eslint": "^8.2.5",
-		"eslint": "^5.0.1"
+		"babel-eslint": "^8.2.6",
+		"eslint": "^5.3.0"
 	},
 	"dependencies": {
+		"bitcoinjs-lib": "^4.0.1",
 		"compression": "^1.7.3",
 		"consolidate": "^0.15.1",
 		"cookie-parser": "^1.4.3",
@@ -22,7 +23,8 @@
 		"dotenv": "^6.0.0",
 		"ejs": "^2.6.1",
 		"express": "^4.16.3",
-		"helmet": "^3.12.2",
+		"helmet": "^3.13.0",
+		"http-errors": "^1.7.0",
 		"level": "^4.0.0",
 		"morgan": "^1.9.0"
 	}
