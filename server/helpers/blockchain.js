@@ -8,9 +8,11 @@
 	 */
 	const Block = require("../model/Block");
 	const levelDB = require("./level");
+	const createError = require("http-errors");
+
 
 	module.exports = function (chainName = "defaultChain") {
-		const chainStore = levelDB(chainName);
+		const chainStore = levelDB(`${chainName}/blocks`);
 		let chain = [];
 		return {
 			/**
@@ -21,17 +23,17 @@
 			 * @return {Promise} Containing the generated block
 			 */
 			addBlock(blockData)  {
-				if (!blockData) {
-					throw new Error("Cannot add an empty block");
-				}
-				if (chain && chain.length) {
-					blockData.previousBlockHash = chain[chain.length - 1].hash;
-					blockData.height = chain.length;
-				}
-
-				let block = new Block(blockData);
-
 				return new Promise((resolve, reject) => {
+					if (!blockData) {
+						return reject(createError(400, "Cannot add an empty block"));
+					}
+					if (chain && chain.length) {
+						blockData.previousBlockHash = chain[chain.length - 1].hash;
+						blockData.height = chain.length;
+					}
+
+					let block = new Block(blockData);
+
 					chainStore.setData(
 						chain.length,
 						JSON.stringify(block)
@@ -52,7 +54,7 @@
 			getBlock(blockHeight) {
 				return new Promise((resolve, reject) => {
 					if (!blockHeight < 0) {
-						return reject(new Error("Cannot proceed without a valid block height"))
+						return reject(createError(400, "Cannot proceed without a valid block height"))
 					}
 					chainStore.getData(
 						blockHeight
@@ -136,7 +138,7 @@
 			createGenesisBlock() {
 				return new Promise((resolve, reject) => {
 					if (chain && chain.length) {
-						return reject(new Error("Cannot add a genesis block on an already existent chain"));
+						return reject(createError(409, "Cannot add a genesis block on an already existent chain"));
 					}
 					this.addBlock({
 						"body": "genesis block"
