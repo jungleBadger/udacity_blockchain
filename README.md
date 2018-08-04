@@ -88,4 +88,38 @@ curl -X POST \
   -d 'address=1EgfiAv7TL4hvZL6674oqRST7aiRLSrYLx&signature=H0mI3eNV6Xr2AwA7Iek9A%2BnjjTFe9ycUz9HR7M8ZSwJ%2BHzT70TO84IEaBmmYTG5BLh5QrCDrdvtcVGsr%2B65ttYg%3D&message=1EgfiAv7TL4hvZL6674oqRST7aiRLSrYLx%3A1533407314%3AstarRegistry'
  ```
  
+ 
  ### This is  where I'm stuck. I could not generate a valid signature yet
+ 
+ 
+ #### Create Star
+ ```
+ curl -X POST \
+   http://localhost:8000/block \
+   -H 'Content-Type: application/x-www-form-urlencoded' \
+   -d 'body={}!'
+ ```
+ 
+ 
+ #### Get star by height
+ ```
+ curl -X GET \
+   http://localhost:8000/stars/:height \
+   -H 'Content-Type: application/x-www-form-urlencoded' \
+ ```
+
+ #### Get star by address
+ ```
+ curl -X GET \
+   http://localhost:8000/stars/address/:address \
+   -H 'Content-Type: application/x-www-form-urlencoded' \
+ ```
+
+ #### Get star by hash
+ ```
+ curl -X GET \
+   http://localhost:8000/stars/hash/:hash \
+   -H 'Content-Type: application/x-www-form-urlencoded' \
+ ```
+ 
+ ### These last APIs are prepared but not tested because I'm kinda stuck 
