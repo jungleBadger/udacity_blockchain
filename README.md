@@ -7,6 +7,7 @@ This project is intended to demonstrated a simple private blockchain creation us
 * [LevelDB](https://github.com/google/leveldb)
 * [ExpressJS](https://expressjs.com/)
 * [Dotenv](https://www.npmjs.com/package/dotenv)
+* [bitcoinjs-lib](https://www.npmjs.com/package/bitcoinjs-lib)
 
 ### Installing dependencies
 
@@ -20,7 +21,7 @@ This project is intended to demonstrated a simple private blockchain creation us
 
 * From within project's root folder run `node app.js` or `npm start` and it will init an already existent, or create a new blockchain and expose a HTTP server on port 8000
 
-### HTTP endpoints
+### HTTP endpoints (Part 1 & 2)
 
 #### Create Block
 ```
@@ -47,3 +48,22 @@ curl -X GET \
 curl -X GET \
   http://localhost:8000/chain
 ```
+
+### Steps (Part 3)
+
+#### Crete a wallet
+```
+curl -X POST \
+  http://localhost:8000/wallet \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'username=dcerag%40br.ibm.com&password=xxxxx'
+```
+
+#### Retrieve wallet info if wanted
+```
+curl -X GET \
+  http://localhost:8000/wallet?address=1PwMuefYvnVQdvVVUU1NAsRAXhbmmqNu8F \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'username=dcerag%40br.ibm.com&password=xxxxx'
+```
+
