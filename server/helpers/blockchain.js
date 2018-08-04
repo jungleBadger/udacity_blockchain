@@ -12,7 +12,7 @@
 
 
 	module.exports = function (chainName = "defaultChain") {
-		const chainStore = levelDB(`${chainName}/blocks`);
+		const chainStore = levelDB(`chains/${chainName}/blocks`);
 		let chain = [];
 		return {
 			/**

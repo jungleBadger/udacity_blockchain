@@ -13,7 +13,7 @@
 
 
 	module.exports = function (chainName = "defaultChain") {
-		const walletStore = levelDB(`${chainName}/wallets`);
+		const walletStore = levelDB(`chains/${chainName}/wallets`);
 		return {
 			/**
 			 * @function createWallet
