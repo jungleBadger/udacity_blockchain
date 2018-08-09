@@ -1,7 +1,6 @@
 (function () {
 	"use strict";
 
-
 	module.exports = function (app, blockchain, validateSignature) {
 
 		app.get("/block/:blockHeight", function (req, res) {
@@ -40,7 +39,7 @@
 			}).then(result => {
 				return res.status(201).send(result);
 			}).catch(err => {
-				return res.status(err.status || 500).send(err.message || err);
+				return res.status(err.status || 500).send(err.message ? JSON.parse(err.message) : err);
 			});
 		});
 

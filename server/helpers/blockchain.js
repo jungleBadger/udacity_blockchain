@@ -1,16 +1,16 @@
 (function () {
 	"use strict";
+
+	const Block = require("../model/Block");
+	const levelDB = require("./level");
+	const createError = require("http-errors");
+
 	/**
 	 * Private Blockchain helper
 	 * @module blockchain
 	 * @param {String} [chainName] - Chain name to be create the private block chain within LevelDB.
 	 * @description Provide methods to create and manipulate a private blockchain
 	 */
-	const Block = require("../model/Block");
-	const levelDB = require("./level");
-	const createError = require("http-errors");
-
-
 	module.exports = function (chainName = "defaultChain") {
 		const chainStore = levelDB(`chains/${chainName}/blocks`);
 		let chain = [];
@@ -19,6 +19,7 @@
 			 * @function addBlock
 			 * @description Method to add a new block to the Chain
 			 * @param {Object} blockData - Unprocessed block data to be hashed.
+			 * @param {Object} [blockData.blockOwner] - The block owner
 			 * @throws {Error} If blockData is an invalid value
 			 * @return {Promise} Containing the generated block
 			 */
@@ -33,7 +34,6 @@
 					}
 
 					let block = new Block(blockData);
-
 					chainStore.setData(
 						chain.length,
 						JSON.stringify(block)
