@@ -38,7 +38,6 @@
 		app.get("/stars/address/:address", function (req, res) {
 			blockchain.getAllBlocks(
 			).then((blockData) => {
-
 				return res.status(200).send(blockData.filter(block => {
 					return block.owner === req.params.address
 				}));
