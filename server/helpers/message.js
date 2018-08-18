@@ -25,6 +25,9 @@
 			},
 			validateSignature(walletAddress, message, signature) {
 				return new Promise((resolve, reject) => {
+					if (!walletAddress || !message || !signature) {
+						return reject(createError(400, "Missing required param"));
+					}
 					if (bitcoinMessage.verify(message, walletAddress, signature)) {
 						let ts = new Date((message.split(":")[2] * 1000));
 						let requestTimestamp = new Date().getTime().toString().slice(0, -3);
