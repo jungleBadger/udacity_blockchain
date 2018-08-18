@@ -23,13 +23,12 @@
 
 		app.post("/message-signature/validate", function (req, res) {
 			message.validateSignature(
-				req.body.message,
 				req.body.address,
 				req.body.signature
 			).then(result => {
 				return res.status(200).send(result);
 			}).catch(err => {
-				return res.status(err.status || 500).send(err.message ? JSON.parse(err.message) : err);
+				return res.status(err.status || 500).send(err.message ? err.message : err);
 			});
 		});
 	}
