@@ -87,7 +87,7 @@ curl -X POST \
 curl -X POST \
   http://localhost:8000/message-signature/validate \
   -H 'Content-Type: application/x-www-form-urlencoded' \
-  -d 'address=1PwMuefYvnVQdvVVUU1NAsRAXhbmmqNu8F&signature=H0WgzFlIexaS5FDxQX1%2F9e2IGr9raeOVksFPiW%2F5kQUUQFSozoLhtE%2FybiqWcHmfmIegBXHm07N4zgL3SePmELk%3D&message=1PwMuefYvnVQdvVVUU1NAsRAXhbmmqNu8F%3A1533844240%3AstarRegistry&='
+  -d 'address=1PwMuefYvnVQdvVVUU1NAsRAXhbmmqNu8F&signature=H0WgzFlIexaS5FDxQX1%2F9e2IGr9raeOVksFPiW%2F5kQUUQFSozoLhtE%2FybiqWcHmfmIegBXHm07N4zgL3SePmELk%3D
  ```
  
   
