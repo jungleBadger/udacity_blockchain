@@ -13,7 +13,7 @@
 	 * @module message
 	 * @description Provide methods to create, sign and validate blockchain messages
 	 */
-	module.exports = function (chainName = "defaultChain") {
+	module.exports = function (walletStore, chainName = "defaultChain") {
 		const authStore = levelDB(`chains/${chainName}/auth`);
 		return {
 			/**
@@ -86,8 +86,6 @@
 						reject(createError(400, "Cannot proceed without Message object"));
 					}
 
-					console.log(messageObject.address);
-
 					authStore.setData(
 						messageObject.address,
 						JSON.stringify(messageObject)
@@ -111,14 +109,13 @@
 			 * @function validateSignature
 			 * @description Method to add a new message using a given address and topic
 			 * @param {string} walletAddress - The wallet address
-			 * @param {string} signature - The previously generated signature
 			 * @throws {Error} If the message fails to be verified
 			 * @throws {Error} If validationWindow is larger than 300 (5 minutes)
 			 * @return {Promise} Containing the permission to handle stars
 			 */
-			validateSignature(walletAddress, signature) {
+			validateSignature(walletAddress) {
 				return new Promise((resolve, reject) => {
-					if (!walletAddress || !signature) {
+					if (!walletAddress) {
 						return reject(createError(400, "Invalid params"));
 					}
 
@@ -126,18 +123,32 @@
 						walletAddress
 					).then(messageObject => {
 						let message = messageObject.message;
-						if (bitcoinMessage.verify(message, walletAddress, signature)) {
-							let ts = new Date((message.split(":")[1] * 1000)).getTime().toString().slice(0, -3);
-							let requestTimestamp = new Date().getTime().toString().slice(0, -3);
-							let validationWindow = (Number(requestTimestamp) - Number(ts));
-							let currentValidationWindow = (MESSAGE_VALIDATION_WINDOW - validationWindow);
+						let x = walletStore.getWalletOwner(walletAddress).then(ownerObject => {
+							let signature = this.signMessage(ownerObject.owner, message);
+							if (bitcoinMessage.verify(message, walletAddress, signature)) {
+								let ts = new Date((message.split(":")[1] * 1000)).getTime().toString().slice(0, -3);
+								let requestTimestamp = new Date().getTime().toString().slice(0, -3);
+								let validationWindow = (Number(requestTimestamp) - Number(ts));
+								let currentValidationWindow = (MESSAGE_VALIDATION_WINDOW - validationWindow);
 
-							if (ts && validationWindow && validationWindow >= MESSAGE_VALIDATION_WINDOW) {
-								reject({
-									"status": 403,
-									"message": {
-										"registerStar": false,
-										"warning": "Request timed out - Start over",
+								if (ts && validationWindow && validationWindow >= MESSAGE_VALIDATION_WINDOW) {
+									reject({
+										"status": 403,
+										"message": {
+											"registerStar": false,
+											"warning": "Request timed out - Start over",
+											"status": {
+												"address": walletAddress,
+												"requestTimeStamp": requestTimestamp,
+												"message": message,
+												"validationWindow": currentValidationWindow,
+												"messageSignature": "valid"
+											}
+										}
+									});
+								} else {
+									resolve({
+										"registerStar": true,
 										"status": {
 											"address": walletAddress,
 											"requestTimeStamp": requestTimestamp,
@@ -145,36 +156,27 @@
 											"validationWindow": currentValidationWindow,
 											"messageSignature": "valid"
 										}
-									}
-								});
+									});
+								}
 							} else {
-								resolve({
-									"registerStar": true,
-									"status": {
-										"address": walletAddress,
-										"requestTimeStamp": requestTimestamp,
-										"message": message,
-										"validationWindow": currentValidationWindow,
-										"messageSignature": "valid"
+								reject({
+									"status": 401,
+									"message": {
+										"registerStar": false,
+										"warning": "Invalid signature",
+										"status": {
+											"address": walletAddress,
+											"requestTimeStamp": 0,
+											"message": message,
+											"validationWindow": 0,
+											"messageSignature": "invalid"
+										}
 									}
 								});
 							}
-						} else {
-							reject({
-								"status": 401,
-								"message": {
-									"registerStar": false,
-									"warning": "Invalid signature",
-									"status": {
-										"address": walletAddress,
-										"requestTimeStamp": 0,
-										"message": message,
-										"validationWindow": 0,
-										"messageSignature": "invalid"
-									}
-								}
-							});
-						}
+						});
+
+
 					}).catch(err => reject(err));
 
 
