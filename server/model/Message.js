@@ -19,7 +19,6 @@
 		}
 
 		let requestTimeStamp = new Date().getTime().toString().slice(0, -3);
-
 		this.address = payload.address;
 		this.requestTimeStamp = requestTimeStamp;
 		this.message = [payload.address, requestTimeStamp, payload.messageTopic].join(":");

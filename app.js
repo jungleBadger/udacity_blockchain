@@ -29,7 +29,7 @@
 	const morgan = require("morgan");
 	const blockchain = require("./server/helpers/blockchain")();
 	const wallet = require("./server/helpers/wallet")();
-	const message = require("./server/helpers/message")();
+	const message = require("./server/helpers/message")(wallet);
 
 	app.use(helmet());
 	app.use(compress());

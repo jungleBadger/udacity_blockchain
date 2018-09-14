@@ -1,17 +1,17 @@
 (function () {
 	"use strict";
+
+	const Wallet = require("../model/Wallet");
+	const levelDB = require("./level");
+	const createError = require("http-errors");
+	const SHA256 = require("crypto-js/sha256");
+
 	/**
 	 * Private Wallet helper
 	 * @module wallet
 	 * @param {String} [chainName] - Chain name to be create the wallet within LevelDB.
 	 * @description Provide methods to create and manipulate a wallet within a private blockchain
 	 */
-	const Wallet = require("../model/Wallet");
-	const levelDB = require("./level");
-	const createError = require("http-errors");
-	const SHA256 = require("crypto-js/sha256");
-
-
 	module.exports = function (chainName = "defaultChain") {
 		const walletStore = levelDB(`chains/${chainName}/wallets`);
 		return {

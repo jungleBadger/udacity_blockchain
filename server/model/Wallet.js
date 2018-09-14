@@ -5,8 +5,7 @@
 
 	const SHA256 = require("crypto-js/sha256");
 	const bitcoin = require("bitcoinjs-lib");
-	const bitcoinMessage = require("bitcoinjs-message");
-	const SECRET =  process.env.APP_SECRET || "APP_SECRET";
+	const SECRET = process.env.APP_SECRET || "APP_SECRET";
 
 	/**
 	 * Represents a new Wallet address to be added in the Chain.
@@ -23,8 +22,8 @@
 			throw new Error("Cannot create Wallet without username and password");
 		}
 
-		let keyPair = bitcoin.ECPair.fromPrivateKey(bitcoin.crypto.sha256(Buffer.from([payload.username, SECRET].join(":"))));
-
+		const hash = bitcoin.crypto.sha256(Buffer.from([payload.username, SECRET].join(":")));
+		let keyPair = bitcoin.ECPair.fromPrivateKey(hash);
 		this.address = bitcoin.payments.p2pkh({"pubkey": keyPair.publicKey}).address;
 		this.owner = payload.username;
 		this.timestamp = new Date().getTime().toString().slice(0, -3);
