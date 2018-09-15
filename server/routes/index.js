@@ -18,13 +18,12 @@
 
 		let validateSignature = (req, res, next) => {
 			message.validateSignature(
-				req.body.message,
 				req.body.address,
-				req.body.signature
+
 			).then(
 				data => next()
 			).catch(err => {
-				return res.status(err.status || 500).send(err.message ? JSON.parse(err.message) : err);
+				return res.status(err.status || 500).send(err);
 			});
 		};
 

@@ -123,7 +123,7 @@
 						walletAddress
 					).then(messageObject => {
 						let message = messageObject.message;
-						let x = walletStore.getWalletOwner(walletAddress).then(ownerObject => {
+						walletStore.getWalletOwner(walletAddress).then(ownerObject => {
 							let signature = this.signMessage(ownerObject.owner, message);
 							if (bitcoinMessage.verify(message, walletAddress, signature)) {
 								let ts = new Date((message.split(":")[1] * 1000)).getTime().toString().slice(0, -3);

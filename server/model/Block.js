@@ -23,7 +23,7 @@
 
 		this.height = payload.height || 0;
 		this.body = payload.body;
-		this.owner = payload.blockOwner || "anonymous";
+		this.owner = payload.blockOwner || payload.owner || "anonymous";
 		this.time = payload.time || new Date().getTime().toString().slice(0, -3);
 		this.previousBlockHash = payload.previousBlockHash || "";
 		this.hash = SHA256(JSON.stringify(this)).toString();

@@ -33,13 +33,13 @@
 			});
 		});
 
-		app.post("/block", validateSignature, function (req, res) {
+		app.post("/block", function (req, res) {
 			blockchain.addBlock({
 				"body": req.body.blockBody || req.body.body
 			}).then(result => {
 				return res.status(201).send(result);
 			}).catch(err => {
-				return res.status(err.status || 500).send(err.message ? JSON.parse(err.message) : err);
+				return res.status(err.status || 500).send(err.message || err);
 			});
 		});
 
